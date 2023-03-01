@@ -42,7 +42,15 @@ public class CameraController : MonoBehaviour
         {
 
             myOwningPlayerView = body.GetComponent<PhotonView>();
-            camPosOnBody = body.GetComponent<PlayerInput>().camPos;
+            if(body.GetComponent<PlayerInput>() != null)
+            {
+                camPosOnBody = body.GetComponent<PlayerInput>().camPos;
+            }
+            else if (body.GetComponent<PlayerMovement>() != null)
+            {
+                camPosOnBody = body.GetComponent<PlayerMovement>().camPos;
+            }
+            
             transform.SetParent(camPosOnBody.transform);
             transform.position = camPosOnBody.transform.position;
             camDoesNotHaveBody = false;

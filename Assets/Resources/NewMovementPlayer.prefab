@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2709978724205092958}
   - component: {fileID: 2709978724298497665}
   - component: {fileID: 2709978724298497664}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: NewMovementPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,11 +83,11 @@ MonoBehaviour:
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   maxSlopeAngle: 45
   whatIsWall:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   wallRunForce: 200
   maxWallRunTime: 1.5
   wallCheckDistance: 0.7
@@ -97,6 +97,7 @@ MonoBehaviour:
   wallJumpSideForce: 12
   exitWallTime: 0.2
   orientation: {fileID: 2709978724824475492}
+  camPos: {fileID: 2709978724830810682}
   state: 0
 --- !u!114 &2709978724298497665
 MonoBehaviour:
@@ -163,7 +164,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2709978724824475492}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Orientation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,7 +195,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2709978724830810683}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CameraPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -228,7 +229,7 @@ GameObject:
   - component: {fileID: 2709978725589873965}
   - component: {fileID: 2709978725589873964}
   - component: {fileID: 2709978725589873967}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
