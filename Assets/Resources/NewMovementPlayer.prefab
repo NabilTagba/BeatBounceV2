@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2709978724205092958}
   - component: {fileID: 2709978724298497665}
   - component: {fileID: 2709978724298497664}
+  - component: {fileID: -2745823460213984793}
   m_Layer: 7
   m_Name: NewMovementPlayer
   m_TagString: Untagged
@@ -155,6 +156,20 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!114 &-2745823460213984793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2709978724205092963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b5a7a0ee3d8f70409c59724d4a516fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ball: {fileID: 0}
+  throwCatchKey: 323
 --- !u!1 &2709978724824475495
 GameObject:
   m_ObjectHideFlags: 0
