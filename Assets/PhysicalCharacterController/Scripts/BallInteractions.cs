@@ -8,12 +8,14 @@ public class BallInteractions : MonoBehaviour
     bool hasBall = false;
     bool catchActive = false;
     public KeyCode throwCatchKey = KeyCode.Mouse0;
+    public PlayerMovement PM;
 
     // Start is called before the first frame update
     void Start()
     {
         //ball = GameObject.FindWithTag("Ball");
         ball = GameObject.Find("DodgeBall");
+        PM = GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
@@ -33,6 +35,7 @@ public class BallInteractions : MonoBehaviour
 
         if(hasBall)
         {
+            ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
             HoldingBallPosUpdate();
         }    
     }
@@ -62,6 +65,7 @@ public class BallInteractions : MonoBehaviour
 
     void ThrowBall()
     {
+        //ball.GetComponent<Rigidbody>().AddForce(PM.orientation.transform.forward * 5);
         ball.GetComponent<Collider>().enabled = true;
         hasBall = false;
     }
