@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Bullet
   - Platform
+  - Ball
+  - BallTrigger
   layers:
   - Default
   - TransparentFX

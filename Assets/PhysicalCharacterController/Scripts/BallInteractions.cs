@@ -12,7 +12,8 @@ public class BallInteractions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ball = GameObject.FindWithTag("Ball");
+        //ball = GameObject.FindWithTag("Ball");
+        ball = GameObject.Find("DodgeBall");
     }
 
     // Update is called once per frame
@@ -29,33 +30,61 @@ public class BallInteractions : MonoBehaviour
                 StartCatch();
             }
         }
+
+        if(hasBall)
+        {
+            HoldingBallPosUpdate();
+        }    
     }
 
     private void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.tag == "BallTrigger")
+        GameObject db = collision.transform.parent.gameObject;
+        if(db.tag == "BallTrigger")
         {
-            Debug.Log("PickUpBall");
+            if(db.gameObject.GetComponent<DodgeBallScript>().damageActive)
+            {
+                if(catchActive)
+                {
+                    CatchBall();
+                }
+                else
+                {
+                    //GET HIT BY BALL
+                }
+            }
+            else
+            {
+                CatchBall();
+            }
         }
     }
 
     void ThrowBall()
     {
-
+        ball.GetComponent<Collider>().enabled = true;
+        hasBall = false;
     }
 
     void StartCatch()
     {
-
+        catchActive = true;
+        Invoke("EndCatch",.5f);
     }
 
     void CatchBall()
     {
-
+        ball.GetComponent<Collider>().enabled = false;
+        hasBall = true;
     }
 
     void EndCatch()
     {
+        catchActive = false;
+    }
 
+    void HoldingBallPosUpdate()
+    {
+        ball.transform.position = transform.position;
     }
 }
