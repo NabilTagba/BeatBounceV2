@@ -65,7 +65,7 @@ public class BallInteractions : MonoBehaviour
 
     void ThrowBall()
     {
-        //ball.GetComponent<Rigidbody>().AddForce(PM.orientation.transform.forward * 5);
+        ball.GetComponent<Rigidbody>().AddForce(PM.orientation.transform.forward * 5 + transform.up * 3,ForceMode.Impulse);
         ball.GetComponent<Collider>().enabled = true;
         hasBall = false;
     }
