@@ -6,9 +6,15 @@ public class BallInteractions : MonoBehaviour
 {
     public GameObject ball;
     bool hasBall = false;
+    bool chargingThrow = false;
+    public float throwMultiplier = 1;
+    float throwChargeTime = 5;
+    float maxThrowMultiplier = 2;
+    float throwForce = 30;
     bool catchActive = false;
     public KeyCode throwCatchKey = KeyCode.Mouse0;
     public PlayerMovement PM;
+    public Camera playerCam;
 
     // Start is called before the first frame update
     void Start()
@@ -25,12 +31,32 @@ public class BallInteractions : MonoBehaviour
         {
             if (hasBall)
             {
-                ThrowBall();
+                throwMultiplier = 1;
+                chargingThrow = true;
             }
             else
             {
                 StartCatch();
             }
+        }
+
+        if(Input.GetKey(throwCatchKey) && chargingThrow)
+        {
+            if(throwMultiplier < maxThrowMultiplier)
+            {
+                throwMultiplier += Time.deltaTime / throwChargeTime;
+            }
+            else
+            {
+                throwMultiplier = maxThrowMultiplier;
+            }
+            
+        }
+
+        if(Input.GetKeyUp(throwCatchKey) && chargingThrow)
+        {
+            ThrowBall();
+            chargingThrow = false;
         }
 
         if(hasBall)
@@ -54,6 +80,8 @@ public class BallInteractions : MonoBehaviour
                 else
                 {
                     //GET HIT BY BALL
+                    Debug.Log("Player got hit by ball");
+                    //NOT YET IMPLEMENTED
                 }
             }
             else
@@ -65,7 +93,7 @@ public class BallInteractions : MonoBehaviour
 
     void ThrowBall()
     {
-        ball.GetComponent<Rigidbody>().AddForce(PM.orientation.transform.forward * 5 + transform.up * 3,ForceMode.Impulse);
+        ball.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * throwForce * throwMultiplier,ForceMode.Impulse);
         ball.GetComponent<Collider>().enabled = true;
         hasBall = false;
     }
@@ -90,5 +118,10 @@ public class BallInteractions : MonoBehaviour
     void HoldingBallPosUpdate()
     {
         ball.transform.position = transform.position;
+    }
+
+    public void AssignCam(Camera tempCamera)
+    {
+        playerCam = tempCamera;
     }
 }
