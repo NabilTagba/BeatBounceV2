@@ -49,6 +49,7 @@ public class CameraController : MonoBehaviour
             else if (body.GetComponent<PlayerMovement>() != null)
             {
                 camPosOnBody = body.GetComponent<PlayerMovement>().camPos;
+                body.GetComponent<BallInteractions>().AssignCam(GetComponent<Camera>());
             }
             
             transform.SetParent(camPosOnBody.transform);

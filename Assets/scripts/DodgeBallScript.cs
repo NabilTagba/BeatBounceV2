@@ -6,6 +6,7 @@ public class DodgeBallScript : MonoBehaviour
 {
     public bool damageActive = false;
     private float currentMoveSpeed;
+    private float damagingSpeedMin = 7;
     private Rigidbody rb;
     // Start is called before the first frame update
     void Start()
@@ -29,7 +30,7 @@ public class DodgeBallScript : MonoBehaviour
 
     void CheckIfDamaging()
     {
-        if (currentMoveSpeed >= 5)
+        if (currentMoveSpeed >= damagingSpeedMin)
         {
             damageActive = true;
         }
