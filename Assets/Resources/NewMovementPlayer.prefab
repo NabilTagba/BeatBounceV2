@@ -169,8 +169,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ball: {fileID: 0}
+  throwMultiplier: 1
   throwCatchKey: 323
   PM: {fileID: 0}
+  extendedCatchRange: {fileID: 4442204293972805909}
+  playerCam: {fileID: 0}
 --- !u!1 &2709978724824475495
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,6 +248,7 @@ GameObject:
   - component: {fileID: 2709978725589873965}
   - component: {fileID: 2709978725589873964}
   - component: {fileID: 2709978725589873967}
+  - component: {fileID: 4442204293972805909}
   m_Layer: 7
   m_Name: PlayerObj
   m_TagString: Untagged
@@ -329,5 +333,19 @@ CapsuleCollider:
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &4442204293972805909
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2709978725589873966}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.6
+  m_Height: 2.2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}

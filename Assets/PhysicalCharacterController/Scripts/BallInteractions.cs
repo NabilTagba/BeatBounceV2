@@ -14,6 +14,7 @@ public class BallInteractions : MonoBehaviour
     bool catchActive = false;
     public KeyCode throwCatchKey = KeyCode.Mouse0;
     public PlayerMovement PM;
+    public CapsuleCollider extendedCatchRange;
     public Camera playerCam;
 
     // Start is called before the first frame update
@@ -101,17 +102,22 @@ public class BallInteractions : MonoBehaviour
     void StartCatch()
     {
         catchActive = true;
+        extendedCatchRange.enabled = true;
         Invoke("EndCatch",.5f);
     }
 
     void CatchBall()
     {
+        EndCatch();
+        CancelInvoke("EndCatch");
+
         ball.GetComponent<Collider>().enabled = false;
         hasBall = true;
     }
 
     void EndCatch()
     {
+        extendedCatchRange.enabled = false;
         catchActive = false;
     }
 
