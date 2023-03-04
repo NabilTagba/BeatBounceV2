@@ -74,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
 
     float horizontalInput;
     float verticalInput;
+    public bool AllowMovement = true;
 
     Vector3 moveDirection;
 
@@ -509,6 +510,17 @@ public class PlayerMovement : MonoBehaviour
 
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
         rb.AddForce(forceToApply, ForceMode.Impulse);
+    }
+
+    public void StopPlayerMovement()
+    {
+        AllowMovement = false;
+        Invoke("StartPlayerMovement", 3f);
+    }
+
+    public void StartPlayerMovement()
+    {
+        AllowMovement = true;
     }
 
 }
