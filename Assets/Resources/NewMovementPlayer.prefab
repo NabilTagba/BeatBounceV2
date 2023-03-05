@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -2745823460213984793}
   m_Layer: 7
   m_Name: NewMovementPlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,6 +99,7 @@ MonoBehaviour:
   exitWallTime: 0.2
   orientation: {fileID: 2709978724824475492}
   camPos: {fileID: 2709978724830810682}
+  AllowMovement: 1
   state: 0
 --- !u!114 &2709978724298497665
 MonoBehaviour:
