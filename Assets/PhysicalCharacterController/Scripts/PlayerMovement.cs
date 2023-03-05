@@ -103,7 +103,10 @@ public class PlayerMovement : MonoBehaviour
     {
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * .5f + .2f, whatIsGround) && readyToJump;
 
-        MyInput();
+        if(AllowMovement)
+        {
+            MyInput();
+        }
         SpeedControl();
         StateHandler();
         CheckForWall();
@@ -137,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKey(jumpKey) && readyToJump && grounded && !wallRunning)
+        if (Input.GetKey(jumpKey) && readyToJump && grounded && !wallRunning && !exitingWall)
         {
             readyToJump = false;
             Jump();
@@ -274,11 +277,12 @@ public class PlayerMovement : MonoBehaviour
 
             }
 
+            //float netHorizontalSpeed = Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z);
             if (speed < runSpeed && desiredMoveSpeed < startValue)
             {
                 Debug.Log("Speed too low");
                 StopCoroutine(SmoothlyLerpMoveSpeed());
-                time += speedIncreaseMultiplier * Time.deltaTime * 10;
+                time += speedIncreaseMultiplier * Time.deltaTime * 20;
             }
 
 

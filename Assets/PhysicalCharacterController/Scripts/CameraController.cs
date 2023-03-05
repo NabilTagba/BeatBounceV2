@@ -42,11 +42,11 @@ public class CameraController : MonoBehaviour
         {
 
             myOwningPlayerView = body.GetComponent<PhotonView>();
-            if(body.GetComponent<PlayerInput>() != null)
+            /*if(body.GetComponent<PlayerInput>() != null)
             {
                 camPosOnBody = body.GetComponent<PlayerInput>().camPos;
-            }
-            else if (body.GetComponent<PlayerMovement>() != null)
+            }*/
+            if (body.GetComponent<PlayerMovement>() != null)
             {
                 camPosOnBody = body.GetComponent<PlayerMovement>().camPos;
                 body.GetComponent<BallInteractions>().AssignCam(GetComponent<Camera>());
