@@ -44,6 +44,9 @@ public class RoundHandler : MonoBehaviour
 
     void ResetGameState()
     {
+        p1.GetComponent<BallInteractions>().hasBall = false;
+        p2.GetComponent<BallInteractions>().hasBall = false;
+
         p1.GetComponent<PlayerMovement>().StopPlayerMovement();
         p2.GetComponent<PlayerMovement>().StopPlayerMovement();
         p1.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -51,7 +54,9 @@ public class RoundHandler : MonoBehaviour
         p1.transform.position = p1StartLoc;
         p2.transform.position = p2StartLoc;
 
+        ball.GetComponent<DodgeBallScript>().ResetBallPos();
         ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
     }
 
     void CheckForWin()
