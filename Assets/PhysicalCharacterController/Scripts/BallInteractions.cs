@@ -5,7 +5,7 @@ using UnityEngine;
 public class BallInteractions : MonoBehaviour
 {
     public GameObject ball;
-    bool hasBall = false;
+    public bool hasBall = false;
     bool chargingThrow = false;
     public float throwMultiplier = 1;
     float throwChargeTime = 5;
