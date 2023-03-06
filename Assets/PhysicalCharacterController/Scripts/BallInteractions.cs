@@ -16,6 +16,8 @@ public class BallInteractions : MonoBehaviour
     public PlayerMovement PM;
     public CapsuleCollider extendedCatchRange;
     public Camera playerCam;
+    public bool IsPlayer1;
+    public GameObject RH;
 
     // Start is called before the first frame update
     void Start()
@@ -81,8 +83,7 @@ public class BallInteractions : MonoBehaviour
                 else
                 {
                     //GET HIT BY BALL
-                    Debug.Log("Player got hit by ball");
-                    //NOT YET IMPLEMENTED
+                    RH.GetComponent<RoundHandler>().UpdateScore(!IsPlayer1);
                 }
             }
             else
