@@ -7,6 +7,7 @@ public class RoundHandler : MonoBehaviour
     public GameObject p1, p2;
     public Vector3 p1StartLoc, p2StartLoc;
     public int p1Score, p2Score = 0;
+    public GameObject ball;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,18 +24,6 @@ public class RoundHandler : MonoBehaviour
             ResetGameState();
         }
 
-        /*if(p1 == null || p2 == null)
-        {
-            GameObject tempPlayer = GameObject.FindGameObjectWithTag("Player");
-            if(p1 == null)
-            {
-                p1 = tempPlayer;
-            }
-            else if (p2 == null && tempPlayer != p1)
-            {
-                p2 = tempPlayer;
-            }
-        }*/
     }
 
     public void UpdateScore(bool whichPlayer)
@@ -61,6 +50,8 @@ public class RoundHandler : MonoBehaviour
         p2.GetComponent<Rigidbody>().velocity = Vector3.zero;
         p1.transform.position = p1StartLoc;
         p2.transform.position = p2StartLoc;
+
+        ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     void CheckForWin()
