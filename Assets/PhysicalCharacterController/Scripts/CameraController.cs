@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
     public Transform cameraTransform;
     public float maxVerticalAngle;
     public GameObject body;
-    
+    [SerializeField] private float vertSensitivityBuffer;
     GameObject camPosOnBody;
     
     private float _mouseVerticalValue;
@@ -20,19 +21,30 @@ public class CameraController : MonoBehaviour
         {
             if (value == 0) return;
             
-            float verticalAngle = _mouseVerticalValue + value;
-            verticalAngle = Mathf.Clamp(verticalAngle, -maxVerticalAngle, maxVerticalAngle);
-            _mouseVerticalValue = verticalAngle;
+            //float verticalAngle = _mouseVerticalValue + value;
+            //verticalAngle = Mathf.Clamp(verticalAngle, -maxVerticalAngle, maxVerticalAngle);
+            //_mouseVerticalValue = verticalAngle;
         }
     }
 
     public float sensitivity;
     bool camDoesNotHaveBody = true;
 
+
+    PlayerControls controls;
+    Gamepad gameControllerOne;
+    [SerializeField] private int playerIndex;
+    private void Awake()
+    {
+       
+    }
+
     private void Start()
     {
+        controls = new PlayerControls();
+        gameControllerOne = Gamepad.all[playerIndex];
         
-        
+
     }
     // Update is called once per frame
     void Update()
@@ -60,26 +72,26 @@ public class CameraController : MonoBehaviour
         if (body != null)
         {
 
-
-            MouseVerticalValue = Input.GetAxis("Mouse Y");
+            
+            
 
             Quaternion finalRotation = Quaternion.Euler(
-                -MouseVerticalValue * sensitivity,
+                  90 * (-gameControllerOne.rightStick.y.ReadValue()/ vertSensitivityBuffer),
             0, 0);
 
             cameraTransform.localRotation = finalRotation;
 
             body.transform.rotation = Quaternion.Euler(
             0,
-            body.transform.localRotation.eulerAngles.y + Input.GetAxis("Mouse X") * sensitivity,
+            body.transform.localRotation.eulerAngles.y + gameControllerOne.rightStick.x.ReadValue() * sensitivity,
             0);
 
-            if (Input.GetMouseButtonDown(0))
+            if (gameControllerOne.rightStickButton.wasReleasedThisFrame && Cursor.visible == true)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
-            if (Input.GetKeyDown(KeyCode.Escape))
+            else if (gameControllerOne.rightStickButton.wasReleasedThisFrame && Cursor.visible == false)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
