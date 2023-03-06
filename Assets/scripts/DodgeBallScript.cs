@@ -8,9 +8,11 @@ public class DodgeBallScript : MonoBehaviour
     private float currentMoveSpeed;
     private float damagingSpeedMin = 7;
     private Rigidbody rb;
+    private Vector3 startPos;
     // Start is called before the first frame update
     void Start()
     {
+        startPos = transform.position;
         rb = GetComponent<Rigidbody>();
     }
 
@@ -38,5 +40,10 @@ public class DodgeBallScript : MonoBehaviour
         {
             damageActive = false;
         }
+    }
+
+    public void ResetBallPos()
+    {
+        transform.position = startPos;
     }
 }

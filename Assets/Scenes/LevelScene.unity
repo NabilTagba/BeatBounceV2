@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 256818103}
   - component: {fileID: 256818102}
   m_Layer: 6
-  m_Name: Cube (3)
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -310,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 284004599}
   maxVerticalAngle: 60
-  body: {fileID: 857046812}
+  body: {fileID: 1324817443}
   sensitivity: 3
 --- !u!1 &305996131
 GameObject:
@@ -536,7 +536,7 @@ GameObject:
   - component: {fileID: 551908123}
   - component: {fileID: 551908122}
   m_Layer: 6
-  m_Name: Cube (1)
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -627,6 +627,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2745823460213984793, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
+      propertyPath: RH
+      value: 
+      objectReference: {fileID: 349535599}
     - target: {fileID: 2709978724205092961, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -1121,6 +1125,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -2745823460213984793, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
+      propertyPath: RH
+      value: 
+      objectReference: {fileID: 349535599}
+    - target: {fileID: -2745823460213984793, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: IsPlayer1
       value: 1
       objectReference: {fileID: 0}
@@ -1267,7 +1275,7 @@ GameObject:
   - component: {fileID: 2062023566}
   - component: {fileID: 2062023565}
   m_Layer: 6
-  m_Name: Cube (2)
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1364,7 +1372,7 @@ GameObject:
   - component: {fileID: 2074615061}
   - component: {fileID: 2074615060}
   m_Layer: 6
-  m_Name: Cube (4)
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
