@@ -177,6 +177,7 @@ MonoBehaviour:
   star: {fileID: 47115259}
   Max_wait_time: 2
   multiple_of_deltatime: 2
+  timer: 0
 --- !u!114 &47115259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -668,6 +669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7846c2f9e208d494ab209f156496bf89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pvCache: {fileID: 0}
 --- !u!4 &1811849110
 Transform:
   m_ObjectHideFlags: 0
