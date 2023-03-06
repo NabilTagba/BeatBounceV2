@@ -10,7 +10,9 @@ public class RoundHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        p1StartLoc = p1.transform.position;
+        p2StartLoc = p2.transform.position;
+        ResetGameState();
     }
 
     private void Update()
@@ -21,7 +23,7 @@ public class RoundHandler : MonoBehaviour
             ResetGameState();
         }
 
-        if(p1 == null || p2 == null)
+        /*if(p1 == null || p2 == null)
         {
             GameObject tempPlayer = GameObject.FindGameObjectWithTag("Player");
             if(p1 == null)
@@ -32,7 +34,7 @@ public class RoundHandler : MonoBehaviour
             {
                 p2 = tempPlayer;
             }
-        }
+        }*/
     }
 
     public void UpdateScore(bool whichPlayer)
