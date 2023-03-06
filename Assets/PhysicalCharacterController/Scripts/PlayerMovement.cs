@@ -124,7 +124,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MovePlayer();
+        if(AllowMovement)
+        {
+            MovePlayer();
+        }
+        
         if (wallRunning)
         {
             WallRunningMovement();
