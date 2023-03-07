@@ -19,7 +19,7 @@ public class RoundHandler : MonoBehaviour
     private void Update()
     {
         //THIS IS PURELY FOR TESTING REMOVE THIS LATER
-        if(Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             ResetGameState();
         }
@@ -28,7 +28,7 @@ public class RoundHandler : MonoBehaviour
 
     public void UpdateScore(bool whichPlayer)
     {
-        if(whichPlayer)
+        if (whichPlayer)
         {
             p1Score++;
         }
@@ -61,11 +61,11 @@ public class RoundHandler : MonoBehaviour
 
     void CheckForWin()
     {
-        if(p1Score==3)
+        if (p1Score == 3)
         {
             //Playe1 wins
         }
-        else if(p2Score ==3)
+        else if (p2Score == 3)
         {
             //Player2 wins
         }
