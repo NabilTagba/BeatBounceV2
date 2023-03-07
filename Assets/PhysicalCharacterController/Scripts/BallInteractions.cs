@@ -12,7 +12,7 @@ public class BallInteractions : MonoBehaviour
     float throwChargeTime = 5;
     float maxThrowMultiplier = 2;
     float throwForce = 30;
-    bool catchActive = false;
+    public bool catchActive = false;
     public KeyCode throwCatchKey = KeyCode.Mouse0;
     public PlayerMovement PM;
     public CapsuleCollider extendedCatchRange;
