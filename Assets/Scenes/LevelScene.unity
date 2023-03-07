@@ -272,10 +272,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0.5
-    width: 1
-    height: 0.5
+    x: 0.5
+    y: 0
+    width: 0.5
+    height: 1
   near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
@@ -310,8 +310,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 284004599}
   maxVerticalAngle: 60
-  body: {fileID: 1324817443}
+  body: {fileID: 2016178852}
+  vertSensitivityBuffer: 2
   sensitivity: 3
+  playerIndex: 1
 --- !u!1 &305996131
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,8 +374,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e58dbf8f753d55d43971c04026c3afde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  p1: {fileID: 857046812}
-  p2: {fileID: 1324817443}
+  p1: {fileID: 824533740}
+  p2: {fileID: 2016178852}
   p1StartLoc: {x: 0, y: 0, z: 0}
   p2StartLoc: {x: 0, y: 0, z: 0}
   p1Score: 0
@@ -632,6 +634,14 @@ PrefabInstance:
       propertyPath: RH
       value: 
       objectReference: {fileID: 349535599}
+    - target: {fileID: -2745823460213984793, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
+      propertyPath: playerIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2709978724205092958, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
+      propertyPath: playerIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2709978724205092961, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -684,7 +694,9 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2709978724298497665, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
+    - {fileID: 2709978724298497664, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
 --- !u!1 &620823319
 GameObject:
@@ -908,7 +920,7 @@ Transform:
   m_Father: {fileID: 1139698507}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &857046812 stripped
+--- !u!1 &824533740 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2709978724205092963, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
   m_PrefabInstance: {fileID: 1346288930}
@@ -1055,8 +1067,8 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
-    height: 0.5
+    width: 0.5
+    height: 1
   near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
@@ -1091,8 +1103,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 1314943352}
   maxVerticalAngle: 60
-  body: {fileID: 857046812}
+  body: {fileID: 824533740}
+  vertSensitivityBuffer: 2
   sensitivity: 3
+  playerIndex: 0
 --- !u!4 &1314943352
 Transform:
   m_ObjectHideFlags: 0
@@ -1108,11 +1122,6 @@ Transform:
   m_Father: {fileID: 857046818}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1324817443 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2709978724205092963, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
-  m_PrefabInstance: {fileID: 561426801}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1324817449 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2709978724205092961, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
@@ -1185,7 +1194,9 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2709978724298497665, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
+    - {fileID: 2709978724298497664, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
 --- !u!1 &1671466620
 GameObject:
@@ -1263,6 +1274,11 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &2016178852 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2709978724205092963, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
+  m_PrefabInstance: {fileID: 561426801}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2062023563
 GameObject:
   m_ObjectHideFlags: 0

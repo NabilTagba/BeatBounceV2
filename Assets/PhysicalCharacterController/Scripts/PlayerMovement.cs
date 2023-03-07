@@ -1,6 +1,8 @@
+using Photon.Pun.Demo.SlotRacer;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -81,6 +83,17 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
 
     public MovementState state;
+
+    PlayerControls controls;
+    Gamepad gameControllerOne;
+    
+
+    [SerializeField] int playerIndex = 0;
+    private void Awake()
+    {
+        controls = new PlayerControls();
+
+    }
     public enum MovementState
     {
         run,
@@ -92,6 +105,9 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameControllerOne = Gamepad.all[playerIndex];
+
+
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         readyToJump = true;
@@ -103,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
     {
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * .5f + .2f, whatIsGround) && readyToJump;
 
-        if(AllowMovement)
+        if (AllowMovement)
         {
             MyInput();
         }
@@ -124,11 +140,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(AllowMovement)
+        if (AllowMovement)
         {
             MovePlayer();
         }
-        
+
         if (wallRunning)
         {
             WallRunningMovement();
@@ -141,10 +157,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void MyInput()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+        horizontalInput = gameControllerOne.leftStick.x.ReadValue();
+        verticalInput = gameControllerOne.leftStick.y.ReadValue();
 
-        if (Input.GetKey(jumpKey) && readyToJump && grounded && !wallRunning && !exitingWall)
+        if (gameControllerOne.aButton.wasReleasedThisFrame && readyToJump && grounded && !wallRunning && !exitingWall)
         {
             readyToJump = false;
             Jump();
@@ -156,7 +172,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 StartWallRun();
             }
-            if (Input.GetKeyDown(jumpKey))
+            if (gameControllerOne.aButton.wasReleasedThisFrame)
             {
                 WallJump();
             }
@@ -181,7 +197,7 @@ public class PlayerMovement : MonoBehaviour
         {
             StopWallRun();
         }
-        if (Input.GetKeyDown(crouchKey) && (horizontalInput != 0 || verticalInput != 0))
+        if (gameControllerOne.leftStickButton.wasReleasedThisFrame && (horizontalInput != 0 || verticalInput != 0))
         {
             transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
             if (grounded)
@@ -190,7 +206,7 @@ public class PlayerMovement : MonoBehaviour
             }
             StartSlide();
         }
-        if (Input.GetKeyUp(crouchKey))
+        if (gameControllerOne.leftStickButton.wasReleasedThisFrame)
         {
             StopSlide();
         }
@@ -272,10 +288,10 @@ public class PlayerMovement : MonoBehaviour
                     {
                         time += Time.deltaTime * speedIncreaseMultiplier * .3f;
                     }
-                    /*else
+                    else
                     {
                         time += Time.deltaTime * speedIncreaseMultiplier * .1f;
-                    }*/
+                    }
 
                 }
 

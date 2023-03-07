@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BallInteractions : MonoBehaviour
 {
@@ -19,9 +20,23 @@ public class BallInteractions : MonoBehaviour
     public bool IsPlayer1;
     public GameObject RH;
 
+
+    PlayerControls controls;
+    Gamepad gameControllerOne;
+    
+
+    [SerializeField] int playerIndex = 0;
+    private void Awake()
+    {
+        controls = new PlayerControls();
+
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        gameControllerOne = Gamepad.all[playerIndex];
+
         //ball = GameObject.FindWithTag("Ball");
         ball = GameObject.Find("DodgeBall");
         PM = GetComponent<PlayerMovement>();
@@ -30,7 +45,7 @@ public class BallInteractions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(throwCatchKey))
+        if (gameControllerOne.rightTrigger.wasPressedThisFrame)
         {
             if (hasBall)
             {
@@ -43,9 +58,9 @@ public class BallInteractions : MonoBehaviour
             }
         }
 
-        if(Input.GetKey(throwCatchKey) && chargingThrow)
+        if (gameControllerOne.rightTrigger.isPressed && chargingThrow)
         {
-            if(throwMultiplier < maxThrowMultiplier)
+            if (throwMultiplier < maxThrowMultiplier)
             {
                 throwMultiplier += Time.deltaTime / throwChargeTime;
             }
@@ -53,30 +68,30 @@ public class BallInteractions : MonoBehaviour
             {
                 throwMultiplier = maxThrowMultiplier;
             }
-            
+
         }
 
-        if(Input.GetKeyUp(throwCatchKey) && chargingThrow)
+        if (gameControllerOne.rightTrigger.wasReleasedThisFrame && chargingThrow)
         {
             ThrowBall();
             chargingThrow = false;
         }
 
-        if(hasBall)
+        if (hasBall)
         {
             ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
             HoldingBallPosUpdate();
-        }    
+        }
     }
 
     private void OnTriggerEnter(Collider collision)
     {
         GameObject db = collision.transform.parent.gameObject;
-        if(db.tag == "BallTrigger")
+        if (db.tag == "BallTrigger")
         {
-            if(db.gameObject.GetComponent<DodgeBallScript>().damageActive)
+            if (db.gameObject.GetComponent<DodgeBallScript>().damageActive)
             {
-                if(catchActive)
+                if (catchActive)
                 {
                     CatchBall();
                 }
@@ -95,7 +110,7 @@ public class BallInteractions : MonoBehaviour
 
     void ThrowBall()
     {
-        ball.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * throwForce * throwMultiplier,ForceMode.Impulse);
+        ball.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * throwForce * throwMultiplier, ForceMode.Impulse);
         ball.GetComponent<Collider>().enabled = true;
         hasBall = false;
     }
@@ -104,7 +119,7 @@ public class BallInteractions : MonoBehaviour
     {
         catchActive = true;
         extendedCatchRange.enabled = true;
-        Invoke("EndCatch",.5f);
+        Invoke("EndCatch", .5f);
     }
 
     void CatchBall()
