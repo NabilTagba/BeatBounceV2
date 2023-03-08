@@ -103,11 +103,11 @@ public class CameraController : MonoBehaviour
         {
             //transform.rotation = Quaternion.Slerp(transform.rotation, 
             //Quaternion.LookRotation(BallLocation.transform.position - transform.position), 5 * Time.deltaTime);
-            cameraTransform.localRotation = Quaternion.LookRotation(BallLocation.transform.position - transform.position);
+            //cameraTransform.localRotation = Quaternion.LookRotation(BallLocation.transform.position - transform.position);
+            transform.LookAt(BallLocation.transform.position);
             BallLocation.transform.position = Vector3.zero;
         }
 
     }
-
 
 }
