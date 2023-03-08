@@ -22,6 +22,8 @@ public class DodgeBallScript : MonoBehaviour
         CheckForSpeed();
         //Checks if it is fast enough to do damage
         CheckIfDamaging();
+
+        
     }
 
     void CheckForSpeed()
@@ -46,13 +48,18 @@ public class DodgeBallScript : MonoBehaviour
         transform.position = startPos;
     }
 
-    /*private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         //Bouncy
         if (collision.gameObject.layer == 6)
         {
             
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y * 1.75f, rb.velocity.z);
+            //rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y * 1.75f, rb.velocity.z);
+            rb.velocity *= 1.2f;
+            if(rb.velocity.y < 1 && rb.velocity.y > -1)
+            {
+                rb.AddForce(0,1,0);
+            }
         }
-    }*/
+    }
 }

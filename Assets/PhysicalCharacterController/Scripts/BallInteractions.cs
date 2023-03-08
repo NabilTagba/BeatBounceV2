@@ -45,6 +45,7 @@ public class BallInteractions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (gameControllerOne.rightTrigger.wasPressedThisFrame)
         {
             if (hasBall)
