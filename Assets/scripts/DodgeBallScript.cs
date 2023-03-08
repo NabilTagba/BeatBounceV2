@@ -45,4 +45,14 @@ public class DodgeBallScript : MonoBehaviour
     {
         transform.position = startPos;
     }
+
+    /*private void OnCollisionEnter(Collision collision)
+    {
+        //Bouncy
+        if (collision.gameObject.layer == 6)
+        {
+            
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y * 1.75f, rb.velocity.z);
+        }
+    }*/
 }

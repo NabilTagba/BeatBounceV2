@@ -12,7 +12,7 @@ public class BallInteractions : MonoBehaviour
     float throwChargeTime = 5;
     float maxThrowMultiplier = 2;
     float throwForce = 30;
-    bool catchActive = false;
+    public bool catchActive = false;
     public KeyCode throwCatchKey = KeyCode.Mouse0;
     public PlayerMovement PM;
     public CapsuleCollider extendedCatchRange;
@@ -87,7 +87,7 @@ public class BallInteractions : MonoBehaviour
     private void OnTriggerEnter(Collider collision)
     {
         GameObject db = collision.transform.parent.gameObject;
-        if (db.tag == "BallTrigger")
+        if (db.tag == "BallTrigger" && !hasBall)
         {
             if (db.gameObject.GetComponent<DodgeBallScript>().damageActive)
             {
