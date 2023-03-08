@@ -87,7 +87,7 @@ public class BallInteractions : MonoBehaviour
     private void OnTriggerEnter(Collider collision)
     {
         GameObject db = collision.transform.parent.gameObject;
-        if (db.tag == "BallTrigger")
+        if (db.tag == "BallTrigger" && !hasBall)
         {
             if (db.gameObject.GetComponent<DodgeBallScript>().damageActive)
             {

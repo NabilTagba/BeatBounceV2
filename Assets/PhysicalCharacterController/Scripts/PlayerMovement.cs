@@ -160,7 +160,7 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = gameControllerOne.leftStick.x.ReadValue();
         verticalInput = gameControllerOne.leftStick.y.ReadValue();
 
-        if (gameControllerOne.aButton.wasReleasedThisFrame && readyToJump && grounded && !wallRunning && !exitingWall)
+        if (gameControllerOne.aButton.wasPressedThisFrame && readyToJump && grounded && !wallRunning && !exitingWall)
         {
             readyToJump = false;
             Jump();
@@ -172,7 +172,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 StartWallRun();
             }
-            if (gameControllerOne.aButton.wasReleasedThisFrame)
+            if (gameControllerOne.aButton.wasPressedThisFrame)
             {
                 WallJump();
             }
