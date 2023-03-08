@@ -313,7 +313,7 @@ MonoBehaviour:
   body: {fileID: 2016178852}
   vertSensitivityBuffer: 2
   sensitivity: 3
-  playerIndex: 1
+  playerIndex: 0
 --- !u!1 &305996131
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,11 +636,11 @@ PrefabInstance:
       objectReference: {fileID: 349535599}
     - target: {fileID: -2745823460213984793, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: playerIndex
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2709978724205092958, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: playerIndex
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2709978724205092961, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: m_RootOrder
