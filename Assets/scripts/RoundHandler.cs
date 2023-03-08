@@ -56,6 +56,7 @@ public class RoundHandler : MonoBehaviour
 
         ball.GetComponent<DodgeBallScript>().ResetBallPos();
         ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        ball.GetComponent<Collider>().enabled = true;
 
     }
 
