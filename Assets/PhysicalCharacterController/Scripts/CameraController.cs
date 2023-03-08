@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour
     public GameObject body;
     [SerializeField] private float vertSensitivityBuffer;
     GameObject camPosOnBody;
+    public GameObject BallLocation;
 
     private float _mouseVerticalValue;
     private float MouseVerticalValue
@@ -37,7 +38,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private int playerIndex;
     private void Awake()
     {
-
     }
 
     private void Start()
@@ -53,7 +53,7 @@ public class CameraController : MonoBehaviour
 
         if (body != null && camDoesNotHaveBody)
         {
-
+            
 
             if (body.GetComponent<PlayerInput>() != null)
             {
@@ -72,9 +72,6 @@ public class CameraController : MonoBehaviour
 
         if (body != null)
         {
-
-
-
 
             Quaternion finalRotation = Quaternion.Euler(
                   90 * (-gameControllerOne.rightStick.y.ReadValue() / vertSensitivityBuffer),
@@ -100,6 +97,14 @@ public class CameraController : MonoBehaviour
 
 
 
+        }
+
+        if (gameControllerOne.leftTrigger.isPressed || Input.GetKey(KeyCode.G))
+        {
+            //transform.rotation = Quaternion.Slerp(transform.rotation, 
+            //Quaternion.LookRotation(BallLocation.transform.position - transform.position), 5 * Time.deltaTime);
+            cameraTransform.localRotation = Quaternion.LookRotation(BallLocation.transform.position - transform.position);
+            BallLocation.transform.position = Vector3.zero;
         }
 
     }
