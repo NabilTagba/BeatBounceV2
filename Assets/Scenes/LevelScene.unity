@@ -312,7 +312,8 @@ MonoBehaviour:
   maxVerticalAngle: 60
   body: {fileID: 2016178852}
   vertSensitivityBuffer: 2
-  BallLocation: {fileID: 0}
+  BallLocation: {fileID: 405286724}
+  OtherPlayer: {fileID: 824533740}
   sensitivity: 2.5
   playerIndex: 1
 --- !u!1 &305996131
@@ -1539,6 +1540,7 @@ MonoBehaviour:
   body: {fileID: 824533740}
   vertSensitivityBuffer: 2
   BallLocation: {fileID: 405286724}
+  OtherPlayer: {fileID: 2016178852}
   sensitivity: 2.5
   playerIndex: 0
 --- !u!4 &1314943352

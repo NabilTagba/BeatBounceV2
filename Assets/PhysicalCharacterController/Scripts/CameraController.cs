@@ -14,6 +14,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float vertSensitivityBuffer;
     GameObject camPosOnBody;
     public GameObject BallLocation;
+    public GameObject OtherPlayer;
 
     private float _mouseVerticalValue;
     private float MouseVerticalValue
@@ -99,14 +100,18 @@ public class CameraController : MonoBehaviour
 
         }
 
-        if (gameControllerOne.leftTrigger.isPressed || Input.GetKey(KeyCode.G))
+        if (gameControllerOne.leftTrigger.isPressed)
         {
-            //transform.rotation = Quaternion.Slerp(transform.rotation, 
-            //Quaternion.LookRotation(BallLocation.transform.position - transform.position), 5 * Time.deltaTime);
-            //cameraTransform.localRotation = Quaternion.LookRotation(BallLocation.transform.position - transform.position);
-            transform.LookAt(BallLocation.transform.position);
-            BallLocation.transform.position = Vector3.zero;
+            if(!body.GetComponent<BallInteractions>().hasBall)
+            {
+                body.transform.LookAt(BallLocation.transform.position);
+            }
+            else
+            {
+                body.transform.LookAt(OtherPlayer.transform.position);
+            }
         }
+
 
     }
 
