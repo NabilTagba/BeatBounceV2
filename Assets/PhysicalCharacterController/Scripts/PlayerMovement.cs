@@ -74,13 +74,13 @@ public class PlayerMovement : MonoBehaviour
     public Transform orientation;
     public GameObject camPos;
 
-    float horizontalInput;
-    float verticalInput;
+    float forwardInput;
+    float rightInput;
     public bool AllowMovement = true;
 
     Vector3 moveDirection;
 
-    Rigidbody rb;
+    [SerializeField]Rigidbody rb;
 
     public MovementState state;
 
@@ -105,10 +105,21 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameControllerOne = Gamepad.all[playerIndex];
+        if (Gamepad.all.Count > 1)
+        {
+            gameControllerOne = Gamepad.all[playerIndex];
+        }
+        else if (Gamepad.all.Count == 1 && playerIndex == 0)
+        {
+            gameControllerOne = Gamepad.all[0];
+        }
+        else
+        {
+            gameControllerOne = null;
+        }
 
 
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         readyToJump = true;
         StartYScale = transform.localScale.y;
@@ -157,59 +168,63 @@ public class PlayerMovement : MonoBehaviour
 
     private void MyInput()
     {
-        horizontalInput = gameControllerOne.leftStick.x.ReadValue();
-        verticalInput = gameControllerOne.leftStick.y.ReadValue();
+        if (gameControllerOne != null)
+        {
+            forwardInput = gameControllerOne.leftStick.y.ReadValue();
+            rightInput = -gameControllerOne.leftStick.x.ReadValue();
 
-        if (gameControllerOne.aButton.wasPressedThisFrame && readyToJump && grounded && !wallRunning && !exitingWall)
-        {
-            readyToJump = false;
-            Jump();
-            Invoke(nameof(ResetJump), jumpCoolDown);
-        }
-        if ((wallLeft || wallRight) && verticalInput > 0 && MinJumpForWallRun() && !exitingWall)
-        {
-            if (!wallRunning)
+            if (gameControllerOne.aButton.wasPressedThisFrame && readyToJump && grounded && !wallRunning && !exitingWall)
             {
-                StartWallRun();
+                readyToJump = false;
+                Jump();
+                Invoke(nameof(ResetJump), jumpCoolDown);
             }
-            if (gameControllerOne.aButton.wasPressedThisFrame)
+            if ((wallLeft || wallRight) && rightInput > 0 && MinJumpForWallRun() && !exitingWall)
             {
-                WallJump();
-            }
+                if (!wallRunning)
+                {
+                    StartWallRun();
+                }
+                if (gameControllerOne.aButton.wasPressedThisFrame)
+                {
+                    WallJump();
+                }
 
-        }
-        else if (exitingWall)
-        {
-            if (wallRunning)
+            }
+            else if (exitingWall)
+            {
+                if (wallRunning)
+                {
+                    StopWallRun();
+                }
+                if (exitWallTimer > 0)
+                {
+                    exitWallTimer -= Time.deltaTime;
+                }
+                if (exitWallTimer <= 0)
+                {
+                    exitingWall = false;
+                }
+            }
+            else if (wallRunning)
             {
                 StopWallRun();
             }
-            if (exitWallTimer > 0)
+            if (gameControllerOne.leftStickButton.wasReleasedThisFrame && (forwardInput != 0 || rightInput != 0))
             {
-                exitWallTimer -= Time.deltaTime;
+                transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
+                if (grounded)
+                {
+                    rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+                }
+                StartSlide();
             }
-            if (exitWallTimer <= 0)
+            if (gameControllerOne.leftStickButton.wasReleasedThisFrame)
             {
-                exitingWall = false;
+                StopSlide();
             }
         }
-        else if (wallRunning)
-        {
-            StopWallRun();
-        }
-        if (gameControllerOne.leftStickButton.wasReleasedThisFrame && (horizontalInput != 0 || verticalInput != 0))
-        {
-            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
-            if (grounded)
-            {
-                rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
-            }
-            StartSlide();
-        }
-        if (gameControllerOne.leftStickButton.wasReleasedThisFrame)
-        {
-            StopSlide();
-        }
+        
     }
 
     private void StateHandler()
@@ -313,50 +328,62 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
-        if (OnSlope() && !exitingSlope)
+        if (gameControllerOne != null)
         {
-            rb.AddForce(GetSlopeMoveDirection(moveDirection) * moveSpeed * 20f, ForceMode.Force);
+            moveDirection = orientation.forward * rightInput + orientation.right * forwardInput;
 
-            if (rb.velocity.y > 0)
+            if (OnSlope() && !exitingSlope)
             {
-                rb.AddForce(Vector3.down * 80f, ForceMode.Force);
-            }
-        }
+                rb.AddForce(GetSlopeMoveDirection(moveDirection) * moveSpeed * 20f, ForceMode.Force);
 
-        else if (grounded && !sliding && !wallRunning)
-        {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+                if (rb.velocity.y > 0)
+                {
+                    rb.AddForce(Vector3.down * 80f, ForceMode.Force);
+                }
+            }
+
+            else if (grounded && !sliding && !wallRunning)
+            {
+                rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            }
+            else if (!grounded && !sliding && !wallRunning)
+            {
+                rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            }
+
         }
-        else if (!grounded && !sliding && !wallRunning)
-        {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
-        }
+        
+        
 
     }
 
     private void SpeedControl()
     {
-        currentMoveSpeed = Vector3.Magnitude(rb.velocity);
-        //Limiting speed on slope
-        if (OnSlope() && !exitingSlope)
+        if (rb != null)
         {
-            if (rb.velocity.magnitude > moveSpeed)
-            {
-                rb.velocity = rb.velocity.normalized * moveSpeed;
-            }
-        }
-        else
-        {
-            Vector3 flatVel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+            currentMoveSpeed = Vector3.Magnitude(rb.velocity);
 
-            if (flatVel.magnitude > moveSpeed)
+            //Limiting speed on slope
+            if (OnSlope() && !exitingSlope)
             {
-                Vector3 limitedVel = flatVel.normalized * moveSpeed;
-                rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+                if (rb.velocity.magnitude > moveSpeed)
+                {
+                    rb.velocity = rb.velocity.normalized * moveSpeed;
+                }
+            }
+            else
+            {
+                Vector3 flatVel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+
+                if (flatVel.magnitude > moveSpeed)
+                {
+                    Vector3 limitedVel = flatVel.normalized * moveSpeed;
+                    rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+                }
             }
         }
+        
+        
 
     }
 
@@ -429,14 +456,14 @@ public class PlayerMovement : MonoBehaviour
 
         slideTimer = maxSlideTime;
 
-        slideDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        slideDirection = orientation.forward * rightInput + orientation.right * forwardInput;
     }
 
     private void SlidingMovement()
     {
         if (!grounded)
         {
-            slideDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+            slideDirection = orientation.forward * rightInput + orientation.right * forwardInput;
         }
         if (!OnSlope() || rb.velocity.y > -.1f)
         {
@@ -446,7 +473,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 //rb.AddForce(moveDirection.normalized * moveSpeed * slideForce, ForceMode.Force);
                 //rb.AddForce(moveDirection.normalized * slideForce, ForceMode.Force);
-                Vector3 groundSlideDirection = orientation.forward * verticalInput + orientation.right * horizontalInput * .5f;
+                Vector3 groundSlideDirection = orientation.forward * rightInput + orientation.right * forwardInput * .5f;
                 //rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
                 groundSlideDirection += rb.velocity;
                 rb.AddForce(groundSlideDirection.normalized * moveSpeed * 10f, ForceMode.Force);
@@ -510,7 +537,7 @@ public class PlayerMovement : MonoBehaviour
 
         rb.AddForce(wallForward * wallRunForce, ForceMode.Force);
 
-        if (!(wallLeft && horizontalInput > 0) && !(wallRight && horizontalInput < 0))
+        if (!(wallLeft && forwardInput > 0) && !(wallRight && forwardInput < 0))
         {
             rb.AddForce(-wallNormal * 100, ForceMode.Force);
         }
