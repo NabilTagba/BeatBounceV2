@@ -23,8 +23,8 @@ public class BallInteractions : MonoBehaviour
 
     PlayerControls controls;
     Gamepad gameControllerOne;
-    
 
+    [SerializeField] GameObject ballHoldGO;
     [SerializeField] int playerIndex = 0;
     private void Awake()
     {
@@ -35,7 +35,18 @@ public class BallInteractions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameControllerOne = Gamepad.all[playerIndex];
+        if (Gamepad.all.Count > 1)
+        {
+            gameControllerOne = Gamepad.all[playerIndex];
+        }
+        else if (Gamepad.all.Count == 1 && playerIndex == 0)
+        {
+            gameControllerOne = Gamepad.all[0];
+        }
+        else
+        {
+            gameControllerOne = null;
+        }
 
         //ball = GameObject.FindWithTag("Ball");
         ball = GameObject.Find("DodgeBall");
@@ -46,7 +57,7 @@ public class BallInteractions : MonoBehaviour
     void Update()
     {
 
-        if (gameControllerOne.rightTrigger.wasPressedThisFrame)
+        if (gameControllerOne != null && gameControllerOne.rightTrigger.wasPressedThisFrame)
         {
             if (hasBall)
             {
@@ -59,7 +70,7 @@ public class BallInteractions : MonoBehaviour
             }
         }
 
-        if (gameControllerOne.rightTrigger.isPressed && chargingThrow)
+        if (gameControllerOne != null && gameControllerOne.rightTrigger.isPressed && chargingThrow)
         {
             if (throwMultiplier < maxThrowMultiplier)
             {
@@ -72,7 +83,7 @@ public class BallInteractions : MonoBehaviour
 
         }
 
-        if (gameControllerOne.rightTrigger.wasReleasedThisFrame && chargingThrow)
+        if (gameControllerOne != null && gameControllerOne.rightTrigger.wasReleasedThisFrame && chargingThrow)
         {
             ThrowBall();
             chargingThrow = false;
@@ -140,7 +151,7 @@ public class BallInteractions : MonoBehaviour
 
     void HoldingBallPosUpdate()
     {
-        ball.transform.position = transform.position;
+        ball.transform.position = ballHoldGO.transform.position;
     }
 
     public void AssignCam(Camera tempCamera)

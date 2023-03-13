@@ -33,10 +33,12 @@ public class CameraController : MonoBehaviour
     public float sensitivity;
     bool camDoesNotHaveBody = true;
 
-
+    float yInput = 0;
     PlayerControls controls;
     Gamepad gameControllerOne;
     [SerializeField] private int playerIndex;
+
+    [SerializeField] GameObject pauseMenue;
     private void Awake()
     {
     }
@@ -44,15 +46,48 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         controls = new PlayerControls();
-        gameControllerOne = Gamepad.all[playerIndex];
+        if (Gamepad.all.Count > 1)
+        {
+            gameControllerOne = Gamepad.all[playerIndex];
+        }
+        else if (Gamepad.all.Count == 1 && playerIndex == 0)
+        {
+            gameControllerOne = Gamepad.all[0];
+        }
+        else
+        {
+            gameControllerOne = null;
+        }
+
 
 
     }
     // Update is called once per frame
     void Update()
     {
+        if (playerIndex == 0)
+        {
+            sensitivity = PlayerPrefs.GetFloat("PlayerOneSensitivity");
+        }
+        else if (playerIndex == 1)
+        {
+            sensitivity = PlayerPrefs.GetFloat("PlayerTwoSensitivity");
+        }
 
-        if (body != null && camDoesNotHaveBody)
+        if (gameControllerOne != null && gameControllerOne.startButton.wasPressedThisFrame)
+        {
+            if (pauseMenue.active == false)
+            {
+                pauseMenue.SetActive(true);
+                Time.timeScale = 0;
+            }
+            else
+            {
+                pauseMenue.SetActive(false);
+                Time.timeScale = 1;
+            }
+        }
+        if (body != null && camDoesNotHaveBody && gameControllerOne != null)
         {
             
 
@@ -71,14 +106,23 @@ public class CameraController : MonoBehaviour
             camDoesNotHaveBody = false;
         }
 
-        if (body != null)
+        if (body != null && gameControllerOne != null)
         {
 
-            Quaternion finalRotation = Quaternion.Euler(
-                  90 * (-gameControllerOne.rightStick.y.ReadValue() / vertSensitivityBuffer),
-            0, 0);
+            
+            if (gameControllerOne.rightStick.y.ReadValue() == 1 || gameControllerOne.rightStick.y.ReadValue() == -1)
+            {
+                
+                yInput += -gameControllerOne.rightStick.y.ReadValue();
+                
+                Quaternion finalRotation = Quaternion.Euler(
+                 Mathf.Clamp(yInput, -90, 90),
+                 0, 0);
 
-            cameraTransform.localRotation = finalRotation;
+                cameraTransform.localRotation = finalRotation;
+            }
+            
+
 
             body.transform.rotation = Quaternion.Euler(
             0,
@@ -100,7 +144,7 @@ public class CameraController : MonoBehaviour
 
         }
 
-        if (gameControllerOne.leftTrigger.isPressed)
+        if (gameControllerOne != null && gameControllerOne.leftTrigger.isPressed)
         {
             if(!body.GetComponent<BallInteractions>().hasBall)
             {
