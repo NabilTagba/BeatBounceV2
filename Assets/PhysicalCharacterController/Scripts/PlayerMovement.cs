@@ -57,8 +57,8 @@ public class PlayerMovement : MonoBehaviour
     public float minJump;
     private RaycastHit leftWallHit;
     private RaycastHit rightWallHit;
-    private bool wallLeft;
-    private bool wallRight;
+    public bool wallLeft;
+    public bool wallRight;
     public float wallRunSpeed;
     private bool wallRunning;
     public float wallJumpUpForce;
@@ -508,8 +508,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckForWall()
     {
-        wallRight = Physics.Raycast(transform.position, orientation.right, out rightWallHit, wallCheckDistance, whatIsWall);
-        wallLeft = Physics.Raycast(transform.position, -orientation.right, out leftWallHit, wallCheckDistance, whatIsWall);
+        wallRight = Physics.Raycast(transform.position, transform.right, out rightWallHit, wallCheckDistance, whatIsWall);
+        wallLeft = Physics.Raycast(transform.position, -transform.right, out leftWallHit, wallCheckDistance, whatIsWall);
+
+        Debug.DrawRay(transform.position, transform.right, Color.green);
+        Debug.DrawRay(transform.position, -transform.right, Color.green);
+        
+        //Debug.DrawRay(transform.position, orientation.forward, Color.green);
     }
 
     private bool MinJumpForWallRun()

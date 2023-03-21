@@ -119,13 +119,16 @@ public class CameraController : MonoBehaviour
             Quaternion finalRotation = Quaternion.Euler(
              Mathf.Clamp(yInput, -90, 90),
              0, 0);
+
+            //Look up and down
             cameraTransform.localRotation = finalRotation;
 
-
-
+            //Look left and right
             body.transform.Rotate(0, gameControllerOne.rightStick.x.ReadValue() * sensitivity * 250 * Time.deltaTime, 0);
+
+
             //print("player "+ Gamepad.all[1] + " x value ="+ gameControllerOne.rightStick.x.ReadValue());
-            print("player " + Gamepad.all[0] + " x value =" + gameControllerOne.rightStick.x.ReadValue());
+            //print("player " + Gamepad.all[0] + " x value =" + gameControllerOne.rightStick.x.ReadValue());
 
            /* if (gameControllerOne.rightStickButton.wasReleasedThisFrame && Cursor.visible == true)
             {
@@ -147,11 +150,16 @@ public class CameraController : MonoBehaviour
             if(!body.GetComponent<BallInteractions>().hasBall)
             {
                 body.transform.LookAt(BallLocation.transform.position);
+                //body.transform.Rotate(0, -90, 0);
+                
             }
             else
             {
                 body.transform.LookAt(OtherPlayer.transform.position);
+                //body.transform.Rotate(0, -90, 0);
             }
+
+            //body.transform.localRotation = Quaternion.Euler(0, body.transform.localRotation.y, body.transform.localRotation.z);
         }
 
 
