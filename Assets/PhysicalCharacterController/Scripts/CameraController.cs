@@ -59,7 +59,11 @@ public class CameraController : MonoBehaviour
             gameControllerOne = null;
         }
 
-
+        if (PlayerPrefs.GetFloat("PlayerOneSensitivity") == 0 || PlayerPrefs.GetFloat("PlayerTwoSensitivity") == 0)
+        {
+            PlayerPrefs.SetFloat("PlayerOneSensitivity", .5f * 4);
+            PlayerPrefs.SetFloat("PlayerTwoSensitivity", .5f * 4);
+        }
 
     }
     // Update is called once per frame
@@ -109,27 +113,21 @@ public class CameraController : MonoBehaviour
         if (body != null && gameControllerOne != null)
         {
 
-            
-            if (gameControllerOne.rightStick.y.ReadValue() == 1 || gameControllerOne.rightStick.y.ReadValue() == -1)
-            {
-                
-                yInput += -gameControllerOne.rightStick.y.ReadValue();
-                
-                Quaternion finalRotation = Quaternion.Euler(
-                 Mathf.Clamp(yInput, -90, 90),
-                 0, 0);
 
-                cameraTransform.localRotation = finalRotation;
-            }
-            
+            yInput += -gameControllerOne.rightStick.y.ReadValue() * 200 * sensitivity * Time.deltaTime;
+
+            Quaternion finalRotation = Quaternion.Euler(
+             Mathf.Clamp(yInput, -90, 90),
+             0, 0);
+            cameraTransform.localRotation = finalRotation;
 
 
-            body.transform.rotation = Quaternion.Euler(
-            0,
-            body.transform.localRotation.eulerAngles.y + gameControllerOne.rightStick.x.ReadValue() * sensitivity,
-            0);
 
-            if (gameControllerOne.rightStickButton.wasReleasedThisFrame && Cursor.visible == true)
+            body.transform.Rotate(0, gameControllerOne.rightStick.x.ReadValue() * sensitivity * 250 * Time.deltaTime, 0);
+            //print("player "+ Gamepad.all[1] + " x value ="+ gameControllerOne.rightStick.x.ReadValue());
+            print("player " + Gamepad.all[0] + " x value =" + gameControllerOne.rightStick.x.ReadValue());
+
+           /* if (gameControllerOne.rightStickButton.wasReleasedThisFrame && Cursor.visible == true)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
@@ -140,7 +138,7 @@ public class CameraController : MonoBehaviour
                 Cursor.visible = true;
             }
 
-
+            */
 
         }
 

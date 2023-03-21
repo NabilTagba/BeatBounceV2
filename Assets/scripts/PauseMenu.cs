@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +16,7 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PlayerPrefs.SetFloat("PlayerOneSensitivity", playerOneSensitivitySlider.value);
-        PlayerPrefs.SetFloat("PlayerTwoSensitivity", playerTwoSensitivitySlider.value);
+        PlayerPrefs.SetFloat("PlayerOneSensitivity", playerOneSensitivitySlider.value * 4);
+        PlayerPrefs.SetFloat("PlayerTwoSensitivity", playerTwoSensitivitySlider.value * 4);
     }
 }
