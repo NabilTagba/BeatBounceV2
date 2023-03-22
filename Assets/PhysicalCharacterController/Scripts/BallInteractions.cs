@@ -112,6 +112,7 @@ public class BallInteractions : MonoBehaviour
                 {
                     //GET HIT BY BALL
                     RH.GetComponent<RoundHandler>().UpdateScore(!IsPlayer1);
+                    
                 }
             }
             else

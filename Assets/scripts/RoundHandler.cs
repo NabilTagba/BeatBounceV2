@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class RoundHandler : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class RoundHandler : MonoBehaviour
     public Vector3 p1StartLoc, p2StartLoc;
     public int p1Score, p2Score = 0;
     public GameObject ball;
+    public TMP_Text ScoreText;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,11 +20,7 @@ public class RoundHandler : MonoBehaviour
 
     private void Update()
     {
-        //THIS IS PURELY FOR TESTING REMOVE THIS LATER
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ResetGameState();
-        }
+        
 
     }
 
@@ -36,6 +34,8 @@ public class RoundHandler : MonoBehaviour
         {
             p2Score++;
         }
+
+        ScoreText.text = p1Score + " - " + p2Score;
 
         CheckForWin();
 
