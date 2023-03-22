@@ -3979,6 +3979,14 @@ PrefabInstance:
       propertyPath: TR
       value: 
       objectReference: {fileID: 405286732}
+    - target: {fileID: 1601755762084149021, guid: 25a660c852238f84890436c798e6f63e, type: 3}
+      propertyPath: fastMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 7a065e9789f3a524ca026195a2cadf8a, type: 2}
+    - target: {fileID: 1601755762084149021, guid: 25a660c852238f84890436c798e6f63e, type: 3}
+      propertyPath: slowMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 054e2c63df88a7d45ad81433853f8640, type: 2}
     - target: {fileID: 1601755762084149022, guid: 25a660c852238f84890436c798e6f63e, type: 3}
       propertyPath: m_RootOrder
       value: 8
