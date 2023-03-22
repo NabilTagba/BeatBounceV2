@@ -57,8 +57,8 @@ public class PlayerMovement : MonoBehaviour
     public float minJump;
     private RaycastHit leftWallHit;
     private RaycastHit rightWallHit;
-    public bool wallLeft;
-    public bool wallRight;
+    private bool wallLeft;
+    private bool wallRight;
     public float wallRunSpeed;
     private bool wallRunning;
     public float wallJumpUpForce;
@@ -74,13 +74,13 @@ public class PlayerMovement : MonoBehaviour
     public Transform orientation;
     public GameObject camPos;
 
-    float forwardInput;
-    float rightInput;
+    float horizontalInput;
+    float verticalInput;
     public bool AllowMovement = true;
 
     Vector3 moveDirection;
 
-    [SerializeField]Rigidbody rb;
+    Rigidbody rb;
 
     public MovementState state;
 
@@ -105,21 +105,10 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (Gamepad.all.Count > 1)
-        {
-            gameControllerOne = Gamepad.all[playerIndex];
-        }
-        else if (Gamepad.all.Count == 1 && playerIndex == 0)
-        {
-            gameControllerOne = Gamepad.all[0];
-        }
-        else
-        {
-            gameControllerOne = null;
-        }
+        gameControllerOne = Gamepad.all[playerIndex];
 
 
-        //rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         readyToJump = true;
         StartYScale = transform.localScale.y;
@@ -168,63 +157,59 @@ public class PlayerMovement : MonoBehaviour
 
     private void MyInput()
     {
-        if (gameControllerOne != null)
+        horizontalInput = gameControllerOne.leftStick.x.ReadValue();
+        verticalInput = gameControllerOne.leftStick.y.ReadValue();
+
+        if (gameControllerOne.aButton.wasPressedThisFrame && readyToJump && grounded && !wallRunning && !exitingWall)
         {
-            forwardInput = gameControllerOne.leftStick.y.ReadValue();
-            rightInput = -gameControllerOne.leftStick.x.ReadValue();
+            readyToJump = false;
+            Jump();
+            Invoke(nameof(ResetJump), jumpCoolDown);
+        }
+        if ((wallLeft || wallRight) && verticalInput > 0 && MinJumpForWallRun() && !exitingWall)
+        {
+            if (!wallRunning)
+            {
+                StartWallRun();
+            }
+            if (gameControllerOne.aButton.wasPressedThisFrame)
+            {
+                WallJump();
+            }
 
-            if (gameControllerOne.aButton.wasPressedThisFrame && readyToJump && grounded && !wallRunning && !exitingWall)
-            {
-                readyToJump = false;
-                Jump();
-                Invoke(nameof(ResetJump), jumpCoolDown);
-            }
-            if ((wallLeft && rightInput >= 0 || wallRight && rightInput <= 0)  && MinJumpForWallRun() && !exitingWall)
-            {
-                if (!wallRunning)
-                {
-                    StartWallRun();
-                }
-                if (gameControllerOne.aButton.wasPressedThisFrame)
-                {
-                    WallJump();
-                }
-
-            }
-            else if (exitingWall)
-            {
-                if (wallRunning)
-                {
-                    StopWallRun();
-                }
-                if (exitWallTimer > 0)
-                {
-                    exitWallTimer -= Time.deltaTime;
-                }
-                if (exitWallTimer <= 0)
-                {
-                    exitingWall = false;
-                }
-            }
-            else if (wallRunning)
+        }
+        else if (exitingWall)
+        {
+            if (wallRunning)
             {
                 StopWallRun();
             }
-            if (gameControllerOne.leftStickButton.wasReleasedThisFrame && (forwardInput != 0 || rightInput != 0))
+            if (exitWallTimer > 0)
             {
-                transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
-                if (grounded)
-                {
-                    rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
-                }
-                StartSlide();
+                exitWallTimer -= Time.deltaTime;
             }
-            if (gameControllerOne.leftStickButton.wasReleasedThisFrame)
+            if (exitWallTimer <= 0)
             {
-                StopSlide();
+                exitingWall = false;
             }
         }
-        
+        else if (wallRunning)
+        {
+            StopWallRun();
+        }
+        if (gameControllerOne.leftStickButton.wasReleasedThisFrame && (horizontalInput != 0 || verticalInput != 0))
+        {
+            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
+            if (grounded)
+            {
+                rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+            }
+            StartSlide();
+        }
+        if (gameControllerOne.leftStickButton.wasReleasedThisFrame)
+        {
+            StopSlide();
+        }
     }
 
     private void StateHandler()
@@ -328,62 +313,50 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (gameControllerOne != null)
+        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+
+        if (OnSlope() && !exitingSlope)
         {
-            moveDirection = orientation.forward * rightInput + orientation.right * forwardInput;
+            rb.AddForce(GetSlopeMoveDirection(moveDirection) * moveSpeed * 20f, ForceMode.Force);
 
-            if (OnSlope() && !exitingSlope)
+            if (rb.velocity.y > 0)
             {
-                rb.AddForce(GetSlopeMoveDirection(moveDirection) * moveSpeed * 20f, ForceMode.Force);
-
-                if (rb.velocity.y > 0)
-                {
-                    rb.AddForce(Vector3.down * 80f, ForceMode.Force);
-                }
+                rb.AddForce(Vector3.down * 80f, ForceMode.Force);
             }
-
-            else if (grounded && !sliding && !wallRunning)
-            {
-                rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-            }
-            else if (!grounded && !sliding && !wallRunning)
-            {
-                rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
-            }
-
         }
-        
-        
+
+        else if (grounded && !sliding && !wallRunning)
+        {
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+        }
+        else if (!grounded && !sliding && !wallRunning)
+        {
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+        }
 
     }
 
     private void SpeedControl()
     {
-        if (rb != null)
+        currentMoveSpeed = Vector3.Magnitude(rb.velocity);
+        //Limiting speed on slope
+        if (OnSlope() && !exitingSlope)
         {
-            currentMoveSpeed = Vector3.Magnitude(rb.velocity);
-
-            //Limiting speed on slope
-            if (OnSlope() && !exitingSlope)
+            if (rb.velocity.magnitude > moveSpeed)
             {
-                if (rb.velocity.magnitude > moveSpeed)
-                {
-                    rb.velocity = rb.velocity.normalized * moveSpeed;
-                }
-            }
-            else
-            {
-                Vector3 flatVel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-
-                if (flatVel.magnitude > moveSpeed)
-                {
-                    Vector3 limitedVel = flatVel.normalized * moveSpeed;
-                    rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
-                }
+                rb.velocity = rb.velocity.normalized * moveSpeed;
             }
         }
-        
-        
+        else
+        {
+            Vector3 flatVel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+
+            if (flatVel.magnitude > moveSpeed)
+            {
+                Vector3 limitedVel = flatVel.normalized * moveSpeed;
+                rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+            }
+        }
 
     }
 
@@ -456,14 +429,14 @@ public class PlayerMovement : MonoBehaviour
 
         slideTimer = maxSlideTime;
 
-        slideDirection = orientation.forward * rightInput + orientation.right * forwardInput;
+        slideDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
     }
 
     private void SlidingMovement()
     {
         if (!grounded)
         {
-            slideDirection = orientation.forward * rightInput + orientation.right * forwardInput;
+            slideDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
         }
         if (!OnSlope() || rb.velocity.y > -.1f)
         {
@@ -473,7 +446,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 //rb.AddForce(moveDirection.normalized * moveSpeed * slideForce, ForceMode.Force);
                 //rb.AddForce(moveDirection.normalized * slideForce, ForceMode.Force);
-                Vector3 groundSlideDirection = orientation.forward * rightInput + orientation.right * forwardInput * .5f;
+                Vector3 groundSlideDirection = orientation.forward * verticalInput + orientation.right * horizontalInput * .5f;
                 //rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
                 groundSlideDirection += rb.velocity;
                 rb.AddForce(groundSlideDirection.normalized * moveSpeed * 10f, ForceMode.Force);
@@ -508,13 +481,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckForWall()
     {
-        wallRight = Physics.Raycast(transform.position, -transform.forward, out rightWallHit, wallCheckDistance, whatIsWall);
-        wallLeft = Physics.Raycast(transform.position, transform.forward, out leftWallHit, wallCheckDistance, whatIsWall);
-
-        Debug.DrawRay(transform.position, -transform.forward, Color.green);
-        Debug.DrawRay(transform.position, transform.forward, Color.green);
-        
-        //Debug.DrawRay(transform.position, orientation.forward, Color.green);
+        wallRight = Physics.Raycast(transform.position, orientation.right, out rightWallHit, wallCheckDistance, whatIsWall);
+        wallLeft = Physics.Raycast(transform.position, -orientation.right, out leftWallHit, wallCheckDistance, whatIsWall);
     }
 
     private bool MinJumpForWallRun()
@@ -535,14 +503,14 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 wallForward = Vector3.Cross(wallNormal, transform.up);
 
-        if ((orientation.right - wallForward).magnitude > (orientation.right + wallForward).magnitude)
+        if ((orientation.forward - wallForward).magnitude > (orientation.forward + wallForward).magnitude)
         {
             wallForward = -wallForward;
         }
 
         rb.AddForce(wallForward * wallRunForce, ForceMode.Force);
 
-        if (!(wallLeft && forwardInput > 0) && !(wallRight && forwardInput < 0))
+        if (!(wallLeft && horizontalInput > 0) && !(wallRight && horizontalInput < 0))
         {
             rb.AddForce(-wallNormal * 100, ForceMode.Force);
         }
