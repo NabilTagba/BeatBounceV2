@@ -19,6 +19,7 @@ public class BallInteractions : MonoBehaviour
     public Camera playerCam;
     public bool IsPlayer1;
     public GameObject RH;
+    public bool justThrewBall = false;
 
 
     PlayerControls controls;
@@ -99,7 +100,7 @@ public class BallInteractions : MonoBehaviour
     private void OnTriggerEnter(Collider collision)
     {
         GameObject db = collision.transform.parent.gameObject;
-        if (db.tag == "BallTrigger" && !hasBall)
+        if (db.tag == "BallTrigger" && !hasBall && !justThrewBall)
         {
             if (db.gameObject.GetComponent<DodgeBallScript>().damageActive)
             {
@@ -125,6 +126,8 @@ public class BallInteractions : MonoBehaviour
         ball.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * throwForce * throwMultiplier, ForceMode.Impulse);
         ball.GetComponent<Collider>().enabled = true;
         hasBall = false;
+        justThrewBall = true;
+        Invoke("BallRecatchImmunityOff", .2f);
     }
 
     void StartCatch()
@@ -152,6 +155,11 @@ public class BallInteractions : MonoBehaviour
     void HoldingBallPosUpdate()
     {
         ball.transform.position = ballHoldGO.transform.position;
+    }
+
+    void BallRecatchImmunityOff()
+    {
+        justThrewBall = false;
     }
 
     public void AssignCam(Camera tempCamera)
