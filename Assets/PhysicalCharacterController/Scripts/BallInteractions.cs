@@ -20,6 +20,7 @@ public class BallInteractions : MonoBehaviour
     public bool IsPlayer1;
     public GameObject RH;
     public bool justThrewBall = false;
+    public bool blockCoolDown = false;
 
 
     PlayerControls controls;
@@ -65,7 +66,7 @@ public class BallInteractions : MonoBehaviour
                 throwMultiplier = 1;
                 chargingThrow = true;
             }
-            else
+            else if (!blockCoolDown)
             {
                 StartCatch();
             }
@@ -112,7 +113,7 @@ public class BallInteractions : MonoBehaviour
                 {
                     //GET HIT BY BALL
                     RH.GetComponent<RoundHandler>().UpdateScore(!IsPlayer1);
-                    
+                    Debug.Log("Hey");
                 }
             }
             else
@@ -136,12 +137,14 @@ public class BallInteractions : MonoBehaviour
         catchActive = true;
         extendedCatchRange.enabled = true;
         Invoke("EndCatch", .5f);
+        blockCoolDown = true;
     }
 
     void CatchBall()
     {
         EndCatch();
         CancelInvoke("EndCatch");
+        Invoke("ResetBlockCooldown", .5f);
 
         ball.GetComponent<Collider>().enabled = false;
         hasBall = true;
@@ -151,6 +154,12 @@ public class BallInteractions : MonoBehaviour
     {
         extendedCatchRange.enabled = false;
         catchActive = false;
+        Invoke("ResetBlockCooldown", .5f);
+    }
+
+    void ResetBlockCooldown()
+    {
+        blockCoolDown = false;
     }
 
     void HoldingBallPosUpdate()

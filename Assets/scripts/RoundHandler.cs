@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class RoundHandler : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class RoundHandler : MonoBehaviour
     public int p1Score, p2Score = 0;
     public GameObject ball;
     public TMP_Text ScoreText;
+    public bool preventMultiScoreTimer = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,20 +28,32 @@ public class RoundHandler : MonoBehaviour
 
     public void UpdateScore(bool whichPlayer)
     {
-        if (whichPlayer)
+        if(!preventMultiScoreTimer)
         {
-            p1Score++;
+            if (whichPlayer)
+            {
+                p1Score++;
+            }
+            else
+            {
+                p2Score++;
+            }
+
+            ScoreText.text = p1Score + " - " + p2Score;
+
+            CheckForWin();
+
+            ResetGameState();
+
+            preventMultiScoreTimer = true;
+            Invoke("ResetTimer", 2f);
         }
-        else
-        {
-            p2Score++;
-        }
+        
+    }
 
-        ScoreText.text = p1Score + " - " + p2Score;
-
-        CheckForWin();
-
-        ResetGameState();
+    void ResetTimer()
+    {
+        preventMultiScoreTimer = false;
     }
 
     void ResetGameState()
