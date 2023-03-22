@@ -86,6 +86,8 @@ public class PlayerMovement : MonoBehaviour
 
     PlayerControls controls;
     Gamepad gameControllerOne;
+
+    //public GameObject BallCarryPos;
     
 
     [SerializeField] int playerIndex = 0;
@@ -210,18 +212,23 @@ public class PlayerMovement : MonoBehaviour
             {
                 StopWallRun();
             }
-            if (gameControllerOne.leftStickButton.wasReleasedThisFrame && (forwardInput != 0 || rightInput != 0))
+            if (gameControllerOne.bButton.wasPressedThisFrame && (forwardInput != 0 || rightInput != 0))
             {
                 transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
+
+                /*BallCarryPos.transform.localPosition =
+                    new Vector3(BallCarryPos.transform.position.x, -.3f, BallCarryPos.transform.position.z);*/
                 if (grounded)
                 {
                     rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
                 }
                 StartSlide();
             }
-            if (gameControllerOne.leftStickButton.wasReleasedThisFrame)
+            if (gameControllerOne.bButton.wasReleasedThisFrame && sliding)
             {
                 StopSlide();
+
+                
             }
         }
         
@@ -503,6 +510,8 @@ public class PlayerMovement : MonoBehaviour
     private void StopSlide()
     {
         transform.localScale = new Vector3(transform.localScale.x, StartYScale, transform.localScale.z);
+        /*BallCarryPos.transform.localPosition =
+                    new Vector3(BallCarryPos.transform.position.x, 0, BallCarryPos.transform.position.z);*/
         sliding = false;
     }
 

@@ -1756,6 +1756,14 @@ PrefabInstance:
       propertyPath: playerIndex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2709978724205092958, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
+      propertyPath: BallCarryPos
+      value: 
+      objectReference: {fileID: 921723886}
+    - target: {fileID: 2709978724205092958, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
+      propertyPath: crouchYScale
+      value: 0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 2709978724205092961, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -2745,6 +2753,14 @@ PrefabInstance:
     - target: {fileID: 1497290065237755580, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2709978724205092958, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
+      propertyPath: BallCarryPos
+      value: 
+      objectReference: {fileID: 467491797}
+    - target: {fileID: 2709978724205092958, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
+      propertyPath: crouchYScale
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 2709978724205092960, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: m_Constraints
