@@ -19,13 +19,12 @@ public class BallInteractions : MonoBehaviour
     public Camera playerCam;
     public bool IsPlayer1;
     public GameObject RH;
-    public bool justThrewBall = false;
 
 
     PlayerControls controls;
     Gamepad gameControllerOne;
+    
 
-    [SerializeField] GameObject ballHoldGO;
     [SerializeField] int playerIndex = 0;
     private void Awake()
     {
@@ -36,18 +35,7 @@ public class BallInteractions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (Gamepad.all.Count > 1)
-        {
-            gameControllerOne = Gamepad.all[playerIndex];
-        }
-        else if (Gamepad.all.Count == 1 && playerIndex == 0)
-        {
-            gameControllerOne = Gamepad.all[0];
-        }
-        else
-        {
-            gameControllerOne = null;
-        }
+        gameControllerOne = Gamepad.all[playerIndex];
 
         //ball = GameObject.FindWithTag("Ball");
         ball = GameObject.Find("DodgeBall");
@@ -57,8 +45,7 @@ public class BallInteractions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (gameControllerOne != null && gameControllerOne.rightTrigger.wasPressedThisFrame)
+        if (gameControllerOne.rightTrigger.wasPressedThisFrame)
         {
             if (hasBall)
             {
@@ -71,7 +58,7 @@ public class BallInteractions : MonoBehaviour
             }
         }
 
-        if (gameControllerOne != null && gameControllerOne.rightTrigger.isPressed && chargingThrow)
+        if (gameControllerOne.rightTrigger.isPressed && chargingThrow)
         {
             if (throwMultiplier < maxThrowMultiplier)
             {
@@ -84,7 +71,7 @@ public class BallInteractions : MonoBehaviour
 
         }
 
-        if (gameControllerOne != null && gameControllerOne.rightTrigger.wasReleasedThisFrame && chargingThrow)
+        if (gameControllerOne.rightTrigger.wasReleasedThisFrame && chargingThrow)
         {
             ThrowBall();
             chargingThrow = false;
@@ -100,7 +87,7 @@ public class BallInteractions : MonoBehaviour
     private void OnTriggerEnter(Collider collision)
     {
         GameObject db = collision.transform.parent.gameObject;
-        if (db.tag == "BallTrigger" && !hasBall && !justThrewBall)
+        if (db.tag == "BallTrigger" && !hasBall)
         {
             if (db.gameObject.GetComponent<DodgeBallScript>().damageActive)
             {
@@ -127,8 +114,6 @@ public class BallInteractions : MonoBehaviour
         ball.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * throwForce * throwMultiplier, ForceMode.Impulse);
         ball.GetComponent<Collider>().enabled = true;
         hasBall = false;
-        justThrewBall = true;
-        Invoke("BallRecatchImmunityOff", .2f);
     }
 
     void StartCatch()
@@ -155,12 +140,7 @@ public class BallInteractions : MonoBehaviour
 
     void HoldingBallPosUpdate()
     {
-        ball.transform.position = ballHoldGO.transform.position;
-    }
-
-    void BallRecatchImmunityOff()
-    {
-        justThrewBall = false;
+        ball.transform.position = transform.position;
     }
 
     public void AssignCam(Camera tempCamera)
