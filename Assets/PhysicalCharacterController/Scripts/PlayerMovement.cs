@@ -57,8 +57,8 @@ public class PlayerMovement : MonoBehaviour
     public float minJump;
     private RaycastHit leftWallHit;
     private RaycastHit rightWallHit;
-    private bool wallLeft;
-    private bool wallRight;
+    public bool wallLeft;
+    public bool wallRight;
     public float wallRunSpeed;
     private bool wallRunning;
     public float wallJumpUpForce;
@@ -179,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
                 Jump();
                 Invoke(nameof(ResetJump), jumpCoolDown);
             }
-            if ((wallLeft || wallRight) && rightInput > 0 && MinJumpForWallRun() && !exitingWall)
+            if ((wallLeft && rightInput >= 0 || wallRight && rightInput <= 0)  && MinJumpForWallRun() && !exitingWall)
             {
                 if (!wallRunning)
                 {
@@ -508,8 +508,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckForWall()
     {
-        wallRight = Physics.Raycast(transform.position, orientation.right, out rightWallHit, wallCheckDistance, whatIsWall);
-        wallLeft = Physics.Raycast(transform.position, -orientation.right, out leftWallHit, wallCheckDistance, whatIsWall);
+        wallRight = Physics.Raycast(transform.position, -transform.forward, out rightWallHit, wallCheckDistance, whatIsWall);
+        wallLeft = Physics.Raycast(transform.position, transform.forward, out leftWallHit, wallCheckDistance, whatIsWall);
+
+        Debug.DrawRay(transform.position, -transform.forward, Color.green);
+        Debug.DrawRay(transform.position, transform.forward, Color.green);
+        
+        //Debug.DrawRay(transform.position, orientation.forward, Color.green);
     }
 
     private bool MinJumpForWallRun()
@@ -530,7 +535,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 wallForward = Vector3.Cross(wallNormal, transform.up);
 
-        if ((orientation.forward - wallForward).magnitude > (orientation.forward + wallForward).magnitude)
+        if ((orientation.right - wallForward).magnitude > (orientation.right + wallForward).magnitude)
         {
             wallForward = -wallForward;
         }

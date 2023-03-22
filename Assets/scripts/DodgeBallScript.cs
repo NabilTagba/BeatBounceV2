@@ -9,6 +9,10 @@ public class DodgeBallScript : MonoBehaviour
     private float damagingSpeedMin = 7;
     private Rigidbody rb;
     public Vector3 startPos;
+    public TrailRenderer TR;
+    public Material slowMat;
+    public Material fastMat;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,16 +40,25 @@ public class DodgeBallScript : MonoBehaviour
         if (currentMoveSpeed >= damagingSpeedMin)
         {
             damageActive = true;
+            GetComponent<MeshRenderer>().material = fastMat;
         }
         else
         {
             damageActive = false;
+            GetComponent<MeshRenderer>().material = slowMat;
         }
     }
 
     public void ResetBallPos()
     {
         transform.position = startPos;
+        TR.enabled = false;
+        Invoke("EnableTrail", .25f);
+    }
+
+    public void EnableTrail()
+    {
+        TR.enabled = true;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -56,10 +69,7 @@ public class DodgeBallScript : MonoBehaviour
             
             //rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y * 1.75f, rb.velocity.z);
             rb.velocity *= 1.2f;
-            if(rb.velocity.y < 1 && rb.velocity.y > -1)
-            {
-                rb.AddForce(0,1,0);
-            }
+            
         }
     }
 }
