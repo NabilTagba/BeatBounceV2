@@ -448,6 +448,7 @@ MonoBehaviour:
   p2Score: 0
   ball: {fileID: 405286724}
   ScoreText: {fileID: 935133822}
+  preventMultiScoreTimer: 0
 --- !u!4 &349535601
 Transform:
   m_ObjectHideFlags: 0
@@ -1259,7 +1260,7 @@ GameObject:
   - component: {fileID: 847456593}
   - component: {fileID: 847456592}
   m_Layer: 5
-  m_Name: Image
+  m_Name: P1Crosshair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1708,6 +1709,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 349535599}
     - target: {fileID: -2745823460213984793, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
+      propertyPath: CrossHair
+      value: 
+      objectReference: {fileID: 1341082782}
+    - target: {fileID: -2745823460213984793, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: ballHoldGO
       value: 
       objectReference: {fileID: 921723886}
@@ -1757,7 +1762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2709978724205092961, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 16.53
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2709978724205092961, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1765,7 +1770,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2709978724205092961, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.32377487
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2709978724205092961, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2626,7 +2631,7 @@ GameObject:
   - component: {fileID: 1341082785}
   - component: {fileID: 1341082784}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: P2Crosshair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2702,6 +2707,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 349535599}
     - target: {fileID: -2745823460213984793, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
+      propertyPath: CrossHair
+      value: 
+      objectReference: {fileID: 847456590}
+    - target: {fileID: -2745823460213984793, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: ballHoldGO
       value: 
       objectReference: {fileID: 467491797}
@@ -2747,7 +2756,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2709978724205092961, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -21.25058
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 2709978724205092961, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2755,7 +2764,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2709978724205092961, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.07257198
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2709978724205092961, guid: 2c4982311ff7def4eac7b6bb08bb363c, type: 3}
       propertyPath: m_LocalRotation.w

@@ -22,6 +22,7 @@ public class BallInteractions : MonoBehaviour
     public bool justThrewBall = false;
     public bool blockCoolDown = false;
     float catchCooldown = 0.6f;
+    public GameObject CrossHair;
 
 
     PlayerControls controls;
@@ -78,6 +79,7 @@ public class BallInteractions : MonoBehaviour
             if (throwMultiplier < maxThrowMultiplier)
             {
                 throwMultiplier += Time.deltaTime / throwChargeTime;
+                CrossHair.transform.localScale = new Vector3(throwMultiplier,throwMultiplier,throwMultiplier);
             }
             else
             {
@@ -90,6 +92,7 @@ public class BallInteractions : MonoBehaviour
         {
             ThrowBall();
             chargingThrow = false;
+            CrossHair.transform.localScale = new Vector3(1,1,1);
         }
 
         if (hasBall)
