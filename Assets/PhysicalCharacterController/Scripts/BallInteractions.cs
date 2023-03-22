@@ -21,6 +21,7 @@ public class BallInteractions : MonoBehaviour
     public GameObject RH;
     public bool justThrewBall = false;
     public bool blockCoolDown = false;
+    float catchCooldown = 0.6f;
 
 
     PlayerControls controls;
@@ -113,7 +114,7 @@ public class BallInteractions : MonoBehaviour
                 {
                     //GET HIT BY BALL
                     RH.GetComponent<RoundHandler>().UpdateScore(!IsPlayer1);
-                    Debug.Log("Hey");
+                    
                 }
             }
             else
@@ -125,15 +126,19 @@ public class BallInteractions : MonoBehaviour
 
     void ThrowBall()
     {
+        //Applies force
         ball.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * throwForce * throwMultiplier, ForceMode.Impulse);
         ball.GetComponent<Collider>().enabled = true;
+        //Removes ownership of the ball
         hasBall = false;
+        //Prevents the ball from instantly being recaught
         justThrewBall = true;
         Invoke("BallRecatchImmunityOff", .2f);
     }
 
     void StartCatch()
     {
+        //Starts the catch
         catchActive = true;
         extendedCatchRange.enabled = true;
         Invoke("EndCatch", .5f);
@@ -142,9 +147,10 @@ public class BallInteractions : MonoBehaviour
 
     void CatchBall()
     {
+        //Catches the ball
         EndCatch();
         CancelInvoke("EndCatch");
-        Invoke("ResetBlockCooldown", .5f);
+
 
         ball.GetComponent<Collider>().enabled = false;
         hasBall = true;
@@ -154,7 +160,7 @@ public class BallInteractions : MonoBehaviour
     {
         extendedCatchRange.enabled = false;
         catchActive = false;
-        Invoke("ResetBlockCooldown", .5f);
+        Invoke("ResetBlockCooldown", catchCooldown);
     }
 
     void ResetBlockCooldown()
@@ -164,6 +170,7 @@ public class BallInteractions : MonoBehaviour
 
     void HoldingBallPosUpdate()
     {
+        //Holds the ball in front of the player
         ball.transform.position = ballHoldGO.transform.position;
     }
 

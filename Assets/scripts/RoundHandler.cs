@@ -15,6 +15,7 @@ public class RoundHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Assigns the starting location of the players
         p1StartLoc = p1.transform.position;
         p2StartLoc = p2.transform.position;
         ResetGameState();
@@ -30,6 +31,7 @@ public class RoundHandler : MonoBehaviour
     {
         if(!preventMultiScoreTimer)
         {
+            //Increases scores for each player
             if (whichPlayer)
             {
                 p1Score++;
@@ -39,10 +41,13 @@ public class RoundHandler : MonoBehaviour
                 p2Score++;
             }
 
+            //Changes the text
             ScoreText.text = p1Score + " - " + p2Score;
 
+            //Checks if either score is 3 or more
             CheckForWin();
 
+            //Resets everything back to starting values
             ResetGameState();
 
             preventMultiScoreTimer = true;
@@ -58,9 +63,11 @@ public class RoundHandler : MonoBehaviour
 
     void ResetGameState()
     {
+        //Makes sure no player has ownership of the ball
         p1.GetComponent<BallInteractions>().hasBall = false;
         p2.GetComponent<BallInteractions>().hasBall = false;
 
+        //Resets the position and velocty of the players as well as preventing movement
         p1.GetComponent<PlayerMovement>().StopPlayerMovement();
         p2.GetComponent<PlayerMovement>().StopPlayerMovement();
         p1.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -68,6 +75,7 @@ public class RoundHandler : MonoBehaviour
         p1.transform.position = p1StartLoc;
         p2.transform.position = p2StartLoc;
 
+        //Resets the position and velocity of the ball
         ball.GetComponent<DodgeBallScript>().ResetBallPos();
         ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
         ball.GetComponent<Collider>().enabled = true;

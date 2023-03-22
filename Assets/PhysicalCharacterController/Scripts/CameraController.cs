@@ -147,6 +147,7 @@ public class CameraController : MonoBehaviour
 
         if (gameControllerOne != null && gameControllerOne.leftTrigger.isPressed)
         {
+            //Locks camera onto the ball
             if(!body.GetComponent<BallInteractions>().hasBall)
             {
                 body.transform.LookAt(BallLocation.transform.position);
@@ -156,6 +157,7 @@ public class CameraController : MonoBehaviour
 
 
             }
+            //Locks camera onto the other player
             else
             {
                 body.transform.LookAt(OtherPlayer.transform.position);

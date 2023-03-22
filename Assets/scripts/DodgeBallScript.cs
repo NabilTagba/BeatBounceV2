@@ -37,6 +37,7 @@ public class DodgeBallScript : MonoBehaviour
 
     void CheckIfDamaging()
     {
+        //Checks if the ball is moving fast enough to deal damage
         if (currentMoveSpeed >= damagingSpeedMin)
         {
             damageActive = true;
@@ -51,6 +52,7 @@ public class DodgeBallScript : MonoBehaviour
 
     public void ResetBallPos()
     {
+        //Resets the ball back to its starting location
         transform.position = startPos;
         TR.enabled = false;
         Invoke("EnableTrail", .25f);
@@ -63,11 +65,10 @@ public class DodgeBallScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        //Bouncy
         if (collision.gameObject.layer == 6)
         {
             
-            //rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y * 1.75f, rb.velocity.z);
+            //Makes the ball extra bouncy
             rb.velocity *= 1.2f;
             
         }
