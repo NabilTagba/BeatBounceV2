@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class BallInteractions : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class BallInteractions : MonoBehaviour
     public bool blockCoolDown = false;
     float catchCooldown = 0.6f;
     public GameObject CrossHair;
+    public Color CHColor;
 
     [SerializeField] GameObject hand;
     [SerializeField] GameObject handCatchPos;
@@ -36,7 +38,7 @@ public class BallInteractions : MonoBehaviour
     private void Awake()
     {
         controls = new PlayerControls();
-
+        CHColor = CrossHair.GetComponent<Image>().color;
     }
 
     // Start is called before the first frame update
@@ -152,7 +154,7 @@ public class BallInteractions : MonoBehaviour
 
         //put hands up
         hand.transform.position = handCatchPos.transform.position;
-
+        CrossHair.GetComponent<Image>().color = Color.black;
     }
 
     void CatchBall()
@@ -166,7 +168,7 @@ public class BallInteractions : MonoBehaviour
         hasBall = true;
 
         //hold catching pos
-        hand.transform.position = handCatchPos.transform.position;
+        hand.transform.position = handRestPos.transform.position;
     }
 
     void EndCatch()
@@ -177,6 +179,7 @@ public class BallInteractions : MonoBehaviour
 
         //put hands down
         hand.transform.position = handRestPos.transform.position;
+        CrossHair.GetComponent<Image>().color = CHColor;
     }
 
     void ResetBlockCooldown()
