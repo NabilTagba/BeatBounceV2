@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class RoundHandler : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class RoundHandler : MonoBehaviour
     public GameObject ball;
     public TMP_Text ScoreText;
     public bool preventMultiScoreTimer = false;
+    [SerializeField] private GameObject winScreen;
+    [SerializeField] private Text winnerName;
+    float timer = 3;
+    [SerializeField] int endGameScore;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +28,27 @@ public class RoundHandler : MonoBehaviour
 
     private void Update()
     {
-        
+        if (p1Score == endGameScore)
+        {
+            winScreen.SetActive(true);
+            winnerName.text = PlayerPrefs.GetString("NameOfPlayerOne");
+            timer -= Time.deltaTime;
+            if (timer <= 0)
+            {
+                SceneManager.LoadScene(0);
+            }
+
+        }
+        else if (p2Score == endGameScore)
+        {
+            winScreen.SetActive(true);
+            winnerName.text = PlayerPrefs.GetString("NameOfPlayerTwo");
+            timer -= Time.deltaTime;
+            if (timer <= 0)
+            {
+                SceneManager.LoadScene(0);
+            }
+        }
 
     }
 

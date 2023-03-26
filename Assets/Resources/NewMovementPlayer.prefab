@@ -130,7 +130,7 @@ RectTransform:
   m_Children:
   - {fileID: 7436375571139090918}
   m_Father: {fileID: 2709978724205092961}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -234,7 +234,6 @@ Transform:
   - {fileID: 2709978724830810683}
   - {fileID: 1314943352}
   - {fileID: 255353459360502220}
-  - {fileID: 8515298119374030802}
   - {fileID: 2479113508416680436}
   - {fileID: 4474192351522347817}
   - {fileID: 7560785502953634483}
@@ -329,6 +328,9 @@ MonoBehaviour:
   playerCam: {fileID: 1314943350}
   IsPlayer1: 1
   RH: {fileID: 0}
+  justThrewBall: 0
+  blockCoolDown: 0
+  CrossHair: {fileID: 0}
   ballHoldGO: {fileID: 0}
   playerIndex: 0
 --- !u!1 &2709978724824475495
@@ -536,7 +538,8 @@ Transform:
   m_LocalPosition: {x: 0.413, y: 0, z: 0.271}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8515298119374030802}
   m_Father: {fileID: 2709978724205092961}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -632,7 +635,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2709978724205092961}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8269144420153860875
 GameObject:
@@ -661,12 +664,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8269144420153860875}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.46, y: 0, z: -0.25}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: 0.093998194, y: 0, z: -1.042}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2709978724205092961}
-  m_RootOrder: 5
+  m_Father: {fileID: 255353459360502220}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8418090057269592356
 MeshFilter:
@@ -763,7 +766,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2709978724205092961}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8057657339795049494
 MeshFilter:

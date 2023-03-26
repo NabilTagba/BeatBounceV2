@@ -24,6 +24,9 @@ public class BallInteractions : MonoBehaviour
     float catchCooldown = 0.6f;
     public GameObject CrossHair;
 
+    [SerializeField] GameObject hand;
+    [SerializeField] GameObject handCatchPos;
+    [SerializeField] GameObject handRestPos;
 
     PlayerControls controls;
     Gamepad gameControllerOne;
@@ -146,6 +149,10 @@ public class BallInteractions : MonoBehaviour
         extendedCatchRange.enabled = true;
         Invoke("EndCatch", .5f);
         blockCoolDown = true;
+
+        //put hands up
+        hand.transform.position = handCatchPos.transform.position;
+
     }
 
     void CatchBall()
@@ -157,6 +164,9 @@ public class BallInteractions : MonoBehaviour
 
         ball.GetComponent<Collider>().enabled = false;
         hasBall = true;
+
+        //hold catching pos
+        hand.transform.position = handCatchPos.transform.position;
     }
 
     void EndCatch()
@@ -164,6 +174,9 @@ public class BallInteractions : MonoBehaviour
         extendedCatchRange.enabled = false;
         catchActive = false;
         Invoke("ResetBlockCooldown", catchCooldown);
+
+        //put hands down
+        hand.transform.position = handRestPos.transform.position;
     }
 
     void ResetBlockCooldown()
