@@ -150,25 +150,34 @@ public class CameraController : MonoBehaviour
             //Locks camera onto the ball
             if(!body.GetComponent<BallInteractions>().hasBall)
             {
-                body.transform.LookAt(BallLocation.transform.position);
-                body.transform.Rotate(0, -90, 0);
-                //body.transform.rotation = Quaternion.Euler(body.transform.rotation.x, body.transform.rotation.y, 0);
-                body.transform.localEulerAngles = new Vector3(body.transform.localEulerAngles.x, body.transform.localEulerAngles.y, 0);
-
+                LockOnBall();
 
             }
             //Locks camera onto the other player
             else
             {
-                body.transform.LookAt(OtherPlayer.transform.position);
-                body.transform.Rotate(0, -90, 0);
-                body.transform.localEulerAngles = new Vector3(body.transform.localEulerAngles.x, body.transform.localEulerAngles.y, 0);
+                LockOnPlayer();
             }
 
             //body.transform.localRotation = Quaternion.Euler(0, body.transform.localRotation.y, body.transform.localRotation.z);
         }
 
 
+    }
+
+    public void LockOnBall()
+    {
+        body.transform.LookAt(BallLocation.transform.position);
+        body.transform.Rotate(0, -90, 0);
+        //body.transform.rotation = Quaternion.Euler(body.transform.rotation.x, body.transform.rotation.y, 0);
+        body.transform.localEulerAngles = new Vector3(body.transform.localEulerAngles.x, body.transform.localEulerAngles.y, 0);
+    }
+
+    public void LockOnPlayer()
+    {
+        body.transform.LookAt(OtherPlayer.transform.position);
+        body.transform.Rotate(0, -90, 0);
+        body.transform.localEulerAngles = new Vector3(body.transform.localEulerAngles.x, body.transform.localEulerAngles.y, 0);
     }
 
 }

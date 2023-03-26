@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class RoundHandler : MonoBehaviour
 {
     public GameObject p1, p2;
+    public GameObject p1Camera, p2Camera;
     public Vector3 p1StartLoc, p2StartLoc;
     public int p1Score, p2Score = 0;
     public GameObject ball;
@@ -91,7 +92,7 @@ public class RoundHandler : MonoBehaviour
         //Makes sure no player has ownership of the ball
         p1.GetComponent<BallInteractions>().hasBall = false;
         p2.GetComponent<BallInteractions>().hasBall = false;
-
+        
         //Resets the position and velocty of the players as well as preventing movement
         p1.GetComponent<PlayerMovement>().StopPlayerMovement();
         p2.GetComponent<PlayerMovement>().StopPlayerMovement();
@@ -104,6 +105,10 @@ public class RoundHandler : MonoBehaviour
         ball.GetComponent<DodgeBallScript>().ResetBallPos();
         ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
         ball.GetComponent<Collider>().enabled = true;
+
+        //Makes players look back at center
+        p1Camera.GetComponent<CameraController>().LockOnBall();
+        p2Camera.GetComponent<CameraController>().LockOnBall();
 
     }
 
